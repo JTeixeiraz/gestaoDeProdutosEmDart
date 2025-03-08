@@ -1,11 +1,38 @@
 import 'dart:io';
 
 void main(List<String> arguments) {
-  //testando a forma de como remover um elemento em uma Map array
-  List<Map<String, dynamic>> produto = [{"nome":"joao", "idade":20} ];
-  print(produto[0]);
-  produto.removeAt(0);
-  print(produto);
+  print('=========== Gerenciador de estoque ===========');
+  print('Informe o nome da empresa:');
+  String nomeEmpresa = stdin.readLineSync()??"";
+  bool sair = false;
+  Empresa empresa = Empresa();
+  while (!sair) {
+    print('Seja bem vindo(a) $nomeEmpresa');
+    print('==============================================');
+    print('Oque deseja fazer? \n 1-Listar estoque completo \n 2-Adicionar produtos \n 3-Remover produtos \n 4-Editar produtos \n 5-Calcular valor total de produto \n 6-sair');
+    String escolha = stdin.readLineSync()??"";
+    switch (escolha) {
+      case "1":
+        empresa.exibirProdutos();
+        break;
+      case "2":
+        empresa.adicionarProduto();
+        break;
+      case "3":
+        empresa.removerProduto();
+        break;
+      case "4":
+        empresa.atualizarEstoque();
+        break;
+      case "5":
+        empresa.calcularProdutosPreco();
+        break;
+      case "6":
+        sair = true;
+        break;
+      default:
+    }
+  }
 }
 
 
@@ -23,9 +50,9 @@ class Empresa {
     print('Informe o preço do produto que será adicionado:');
     String precoProd = stdin.readLineSync() ?? "";
     produto.setPreco = double.parse(precoProd);
-    produtos.add({"nome":produto.getNome, "quantidade":produto.getQuantidade, "preco":produto.getPreco, "id":produtos.length});
+    produtos.add({"nome":produto.getNome, "quantidade":produto.getQuantidade, "preco":produto.getPreco, "id": produtos.length});
     print('Produto adicionado + id unico implementado');
-    print(produtos[produtos.length]);
+    print(produtos[produtos.length -1]);
     print('');
     print('Exibir o estoque? \n (y/n)');
     String escolhaexibir = stdin.readLineSync()??"";
@@ -68,7 +95,7 @@ class Empresa {
     int? valorIdProdutoCalcular = int.tryParse(idProdutoCalcular)??0;
     print('Nome do produto: \n ${produtos[valorIdProdutoCalcular]["nome"]}');
     print('Quantidade em estoque: \n ${produtos[valorIdProdutoCalcular]["quantidade"]}');
-    print('Preco do produto: zn ${produtos[valorIdProdutoCalcular]["preco"]}');
+    print('Preco do produto: \n ${produtos[valorIdProdutoCalcular]["preco"]}');
     print('=========================');
     double calculo = produtos[valorIdProdutoCalcular]["preco"]*produtos[valorIdProdutoCalcular]["quantidade"];
     print('Valor total de todos os produtos em estoque somados: \n $calculo');
@@ -114,7 +141,7 @@ class Empresa {
     int? valEscolhaProduto = int.tryParse(escolhaProduto) ??0;
     print('Qual sera o novo preço do ${produtos[valEscolhaProduto]["nome"]}:');
     String txtPreco = stdin.readLineSync()??"";
-    int? valorQuantidade = int.tryParse(txtPreco) ??0;
+    double? valorQuantidade = double.tryParse(txtPreco) ??0;
     produtos[valEscolhaProduto]["preco"] = valorQuantidade;
     print('Valor alterado com sucesso');
   }
